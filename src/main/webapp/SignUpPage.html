@@ -1,0 +1,28 @@
+<!-- signup.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sign Up | Compliment Management System</title>
+    <link rel="stylesheet" href="css/logIn&SigninStyle.css" />
+</head>
+<body class="dark-theme">
+<div class="form-container">
+    <h2>Create Account</h2>
+    <p class="subtitle">Join to submit or manage IT compliments</p>
+    <form>
+        <input type="text" placeholder="Full Name" required />
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <select required>
+            <option value="">Select Role</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+        </select>
+        <button type="submit">Register</button>
+    </form>
+    <p class="switch">Already have an account? <a href="/login">Login</a></p>
+</div>
+</body>
+</html>
