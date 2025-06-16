@@ -1,4 +1,4 @@
-package com.example.jspcmsfinal;
+package com.example.jspcmsfinal.controller;
 
 import java.io.*;
 

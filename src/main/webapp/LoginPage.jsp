@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +23,7 @@
         </select>
         <button type="submit">Login</button>
     </form>
-    <p class="switch">Don't have an account? <a href="/signup">Sign up</a></p>
+    <p class="switch">Don't have an account? <a href="SignUpPage.jsp">Sign up</a></p>
 </div>
 </body>
 </html>
