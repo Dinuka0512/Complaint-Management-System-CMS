@@ -13,7 +13,7 @@
 <div class="form-container">
     <h2>Create Account</h2>
     <p class="subtitle">Join to submit or manage IT compliments</p>
-    <form>
+    <form action="signUp" method="post">
         <input type="text" placeholder="Full Name" required />
         <input type="email" placeholder="Email" required />
         <input type="password" placeholder="Password" required />
