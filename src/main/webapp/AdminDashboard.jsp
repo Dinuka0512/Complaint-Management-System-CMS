@@ -17,7 +17,7 @@
             <a href="#">Dashboard</a>
             <a href="#">Compliments</a>
             <a href="#">Users</a>
-            <a href="/login">Logout</a>
+            <a href="LoginPage.jsp">Logout</a>
         </nav>
     </aside>
 

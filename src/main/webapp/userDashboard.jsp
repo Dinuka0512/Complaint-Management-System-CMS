@@ -14,16 +14,16 @@
     <aside class="sidebar">
         <h2>User Panel</h2>
         <nav>
-            <a href="#">Dashboard</a>
-            <a href="#">Submit Compliment</a>
-            <a href="#">Profile</a>
-            <a href="/login">Logout</a>
+            <a href="userDashboard.jsp">Dashboard</a>
+            <a href="UserCompliments.jsp">Compliments</a>
+            <a href="UserProfileManage.jsp">Profile</a>
+            <a href="LoginPage.jsp">Logout</a>
         </nav>
     </aside>
 
     <!-- Main Content -->
     <main class="dashboard-content">
-        <h1>Welcome, [User]</h1>
+        <h1>Welcome, <%= session.getAttribute("name") %></h1>
 
         <!-- Compliment Stats -->
         <div class="stats-grid">

@@ -4,6 +4,7 @@ import java.io.*;
 import java.sql.SQLException;
 
 import com.example.jspcmsfinal.db.DBConnectionPool;
+import com.example.jspcmsfinal.dto.UserDto;
 import com.example.jspcmsfinal.model.UserModel;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -27,6 +28,17 @@ public class LoginServlet extends HttpServlet {
                         resp.sendRedirect("AdminDashboard.jsp");
                     }else {
                         //USER LOG IN
+
+                        // Get full user data (from DB)
+                        UserDto user = userModel.getUserByEmail(email, DBConnectionPool.getConnection());
+
+                        // Start session and save user data
+                        HttpSession session = req.getSession();
+                        session.setAttribute("email", user.getEmail());
+                        session.setAttribute("name", user.getName());
+                        session.setAttribute("role", user.getRole());
+                        session.setAttribute("uId", user.getUId());
+
                         resp.sendRedirect("userDashboard.jsp");
                     }
                 }else{

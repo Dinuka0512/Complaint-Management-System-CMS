@@ -61,4 +61,22 @@ public class UserModel {
 
         return statement.executeQuery().next();
     }
+
+    public UserDto getUserByEmail(String email, Connection conn) throws SQLException {
+        String sql = "SELECT * FROM user WHERE email = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, email);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            UserDto user = new UserDto();
+            user.setUId(rs.getString("uId"));
+            user.setName(rs.getString("name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setRole(rs.getString("role"));
+            return user;
+        }
+        return null;
+    }
 }
