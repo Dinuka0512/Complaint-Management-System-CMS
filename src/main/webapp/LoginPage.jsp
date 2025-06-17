@@ -13,14 +13,9 @@
 <div class="form-container">
     <h2>Welcome Back</h2>
     <p class="subtitle">Log in to manage IT compliments</p>
-    <form>
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <select required>
-            <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-        </select>
+    <form action="login" method="post">
+        <input type="email" placeholder="Email" required name="email" />
+        <input type="password" placeholder="Password" required name="password"/>
         <button type="submit">Login</button>
     </form>
     <p class="switch">Don't have an account? <a href="SignUpPage.jsp">Sign up</a></p>

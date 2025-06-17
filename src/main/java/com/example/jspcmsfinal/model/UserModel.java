@@ -35,4 +35,30 @@ public class UserModel {
         ResultSet resultSet = statement.executeQuery();
         return !resultSet.next();
     }
+
+    public boolean isEmailExist(String email, Connection connection) throws SQLException {
+        String sql = "SELECT * from user where email = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, email);
+
+        return statement.executeQuery().next();
+    }
+
+    public boolean isLoginSuccess(String email, String password, Connection connection) throws SQLException {
+        String sql = "SELECT * from user where email = ? AND password = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1,email);
+        statement.setString(2, password);
+
+        return statement.executeQuery().next();
+    }
+
+    public boolean isAdminLogin(String email, Connection connection) throws SQLException {
+        String sql = "SELECT * from user where email = ? AND role = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, email);
+        statement.setString(2, "admin");
+
+        return statement.executeQuery().next();
+    }
 }
