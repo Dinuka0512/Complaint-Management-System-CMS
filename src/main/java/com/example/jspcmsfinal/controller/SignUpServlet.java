@@ -12,6 +12,10 @@ import java.io.IOException;
 public class SignUpServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().println("hi..");
+        String userName = req.getParameter("name");
+        String email = req.getParameter("email");
+        String jobRole = req.getParameter("role");
+        String password = req.getParameter("password");
+
     }
 }

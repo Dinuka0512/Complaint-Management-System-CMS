@@ -14,10 +14,10 @@
     <h2>Create Account</h2>
     <p class="subtitle">Join to submit or manage IT compliments</p>
     <form action="signUp" method="post">
-        <input type="text" placeholder="Full Name" required />
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <select required>
+        <input type="text" placeholder="Full Name" required name="name" />
+        <input type="email" placeholder="Email" required name="email" />
+        <input type="password" placeholder="Password" required name="password"/>
+        <select required name="role">
             <option value="">Select Role</option>
             <option value="admin">Admin</option>
             <option value="user">User</option>
