@@ -32,7 +32,7 @@ public class SignUpServlet extends HttpServlet {
             UserModel userModel = new UserModel();
             int result = userModel.saveUser(userDto, DBConnectionPool.getConnection());
 
-            if(result < 0){
+            if(result > 0){
                 resp.sendRedirect("LoginPage.jsp");
             }else {
                 req.setAttribute("error", "Registration failed");
