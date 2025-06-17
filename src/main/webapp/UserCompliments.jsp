@@ -125,7 +125,7 @@
 
     <!-- ✅ Form Section -->
     <div class="form-wrapper">
-      <form action="ComplimentController" method="post">
+      <form action="userCompliment" method="post">
         <div class="form-group">
           <label for="subject">Subject</label>
           <input type="text" name="subject" id="subject" required />

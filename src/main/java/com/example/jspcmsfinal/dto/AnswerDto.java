@@ -12,4 +12,5 @@ public class AnswerDto {
     private String complainId;
     private String subject;
     private String message;
+    private String date;
 }

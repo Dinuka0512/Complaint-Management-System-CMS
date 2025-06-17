@@ -15,7 +15,7 @@ CREATE TABLE Complain (
                           subject VARCHAR(255),
                           message VARCHAR(255),
                           status VARCHAR(255),
-                          date DATE,
+                          date VARCHAR(255),
                           FOREIGN KEY (uId) REFERENCES User(uId) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -24,6 +24,6 @@ CREATE TABLE Answer (
                         complainId VARCHAR(255),
                         subject VARCHAR(255),
                         message VARCHAR(255),
-                        date DATE,
+                        date VARCHAR(255),
                         FOREIGN KEY (complainId) REFERENCES Complain(complainId) ON DELETE CASCADE ON UPDATE CASCADE
 );

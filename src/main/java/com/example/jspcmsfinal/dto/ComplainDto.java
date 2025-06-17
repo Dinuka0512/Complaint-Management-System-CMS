@@ -13,4 +13,5 @@ public class ComplainDto {
     private String subject;
     private String message;
     private String status;
+    private String date;
 }
