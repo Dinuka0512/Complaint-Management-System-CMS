@@ -82,7 +82,7 @@
         <div class="profile-card">
             <h2>Update Profile</h2>
 
-            <form action="update-profile" method="post">
+            <form action="userProfile" method="post">
                 <div class="form-group">
                     <label for="name">Full Name</label>
                     <input type="text" name="name" id="name" value="<%= session.getAttribute("name") %>" required />
@@ -90,7 +90,7 @@
 
                 <div class="form-group">
                     <label for="email">Email (readonly)</label>
-                    <input type="email" id="email" value="<%= session.getAttribute("email") %>" readonly />
+                    <input type="email" id="email" value="<%= session.getAttribute("email") %>" readonly/>
                 </div>
 
                 <div class="form-group">
