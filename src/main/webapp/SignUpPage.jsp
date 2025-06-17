@@ -10,6 +10,14 @@
     <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
 </head>
 <body class="dark-theme">
+
+    <% String error = (String) request.getAttribute("error"); %>
+    <% if (error != null) { %>
+    <script>
+        alert("<%= error %>");
+    </script>
+    <% } %>
+
 <div class="form-container">
     <h2>Create Account</h2>
     <p class="subtitle">Join to submit or manage IT compliments</p>
