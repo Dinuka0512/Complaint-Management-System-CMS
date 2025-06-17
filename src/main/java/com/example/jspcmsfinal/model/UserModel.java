@@ -79,4 +79,14 @@ public class UserModel {
         }
         return null;
     }
+
+    public boolean updateUser(String uId, String name , String password , Connection connection) throws SQLException {
+        String sql = "UPDATE user set name = ? , password = ? where uId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, name);
+        statement.setString(2, password);
+        statement.setString(3, uId);
+
+        return statement.executeUpdate() > 0;
+    }
 }
