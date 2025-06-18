@@ -1,7 +1,10 @@
 package com.example.jspcmsfinal.controller;
 
 import com.example.jspcmsfinal.db.DBConnectionPool;
+import com.example.jspcmsfinal.dto.AnswerDto;
+import com.example.jspcmsfinal.model.AnswerModel;
 import com.example.jspcmsfinal.model.ComplimentModel;
+import com.example.jspcmsfinal.util.SessionHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +15,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @WebServlet("/adminCompliment")
 public class AdminComplimentsManage extends HttpServlet {
@@ -19,27 +25,60 @@ public class AdminComplimentsManage extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             String thisPage = "AdminComplimentManage.jsp";
+
             ComplimentModel complimentModel = new ComplimentModel();
-            Connection connection = null;
-            connection = DBConnectionPool.getConnection();
-            String action = req.getParameter("action");
+            Connection connection = DBConnectionPool.getConnection();
+
             String complainId = req.getParameter("complainId");
+            String action = req.getParameter("action");
 
             if("delete".equals(action)){
                 //DELETE COMPLIMENT
                 boolean deleted = complimentModel.deleteCompliment(complainId, connection);
                 if(deleted){
                     alertAndRedirectToPage(resp, "User Deleted", thisPage);
+                    SessionHelper.loadAdminComponents(req);
                 }else{
                     alertAndRedirectToPage(resp, "User Delete Failed", thisPage);
                 }
             }else {
-                //THERE NEED TO UPDATE THE COMPLAIN AS SOLVED AND CREATE NEW ANSWER
-                connection.setAutoCommit(false);
+                try {
+                    //THERE NEED TO UPDATE THE COMPLAIN AS SOLVED AND CREATE NEW ANSWER
+                    connection.setAutoCommit(false);
 
-                //UPDATE COMPLAIN
+                    //UPDATE COMPLAIN
+                    boolean updated = complimentModel.updateComplimentAsSolved(complainId, connection);
+                    if(updated){
+                        //NOW SAVE THE ANSWER
+                        String message = req.getParameter("message");
+                        String subject = req.getParameter("subject");
 
+                        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd MMM yyyy"));
 
+                        AnswerDto answerDto = new AnswerDto();
+                        answerDto.setComplainId(complainId);
+                        answerDto.setSubject(subject);
+                        answerDto.setMessage(message);
+                        answerDto.setDate(date);
+
+                        AnswerModel answerModel = new AnswerModel();
+                        boolean answerSaved = answerModel.saveAnswer(answerDto, connection);
+                        if(answerSaved){
+                           //ALL ARE OK
+                           alertAndRedirectToPage(resp, "Compiment Solved!", thisPage);
+                           SessionHelper.loadAdminComponents(req);
+                        }else if("solve".equals(action)){
+                            alertAndRedirectToPage(resp, "Something Went wrong...", thisPage);
+                            connection.rollback();
+                        }
+                    }else {
+                        alertAndRedirectToPage(resp, "Update Failed", thisPage);
+                        connection.rollback();
+                    }
+
+                }finally {
+                    connection.setAutoCommit(true);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

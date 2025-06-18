@@ -18,7 +18,7 @@ public class DBConnectionPool {
         dataSource.setInitialSize(5);        // Initial connections
         dataSource.setMinIdle(5);            // Minimum idle connections
         dataSource.setMaxIdle(10);           // Maximum idle connections
-        dataSource.setMaxTotal(20);          // Total open connections
+        dataSource.setMaxTotal(100);          // Total open connections
         dataSource.setMaxOpenPreparedStatements(100); // Optional
     }
 

@@ -129,4 +129,13 @@ public class ComplimentModel {
         }
         return 0;
     }
+
+    public boolean updateComplimentAsSolved(String complainId, Connection connection) throws SQLException {
+        String sql = "UPDATE complain SET status = ? where complainId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, "Solved");
+        statement.setString(2, complainId);
+
+        return statement.executeUpdate() > 0;
+    }
 }
