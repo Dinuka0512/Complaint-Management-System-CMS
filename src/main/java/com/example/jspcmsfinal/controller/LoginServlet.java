@@ -2,10 +2,14 @@ package com.example.jspcmsfinal.controller;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.example.jspcmsfinal.db.DBConnectionPool;
+import com.example.jspcmsfinal.dto.ComplainDto;
 import com.example.jspcmsfinal.dto.UserDto;
+import com.example.jspcmsfinal.model.ComplimentModel;
 import com.example.jspcmsfinal.model.UserModel;
+import com.example.jspcmsfinal.util.SessionHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -38,6 +42,9 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("name", user.getName());
                         session.setAttribute("role", user.getRole());
                         session.setAttribute("uId", user.getUId());
+
+                        //LOAD COMPLIMENTS
+                        SessionHelper.loadCompliments(req);
 
                         resp.sendRedirect("userDashboard.jsp");
                     }

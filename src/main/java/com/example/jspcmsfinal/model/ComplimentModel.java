@@ -33,7 +33,20 @@ public class ComplimentModel {
         String sql = "SELECT * FROM complain";
         PreparedStatement statement = connection.prepareStatement(sql);
         ResultSet resultSet = statement.executeQuery();
-        return (ArrayList<ComplainDto>) resultSet;
+        ArrayList<ComplainDto> complainDtos =new ArrayList<>();
+        while (resultSet.next()){
+            ComplainDto complainDto = new ComplainDto(
+                    resultSet.getString("complainId"),
+                    resultSet.getString("uId"),
+                    resultSet.getString("subject"),
+                    resultSet.getString("message"),
+                    resultSet.getString("status"),
+                    resultSet.getString("date")
+            );
+
+            complainDtos.add(complainDto);
+        }
+        return complainDtos;
     }
 
     public ArrayList<ComplainDto> getAllByUId(String uId, Connection connection) throws SQLException {
@@ -42,6 +55,19 @@ public class ComplimentModel {
         statement.setString(1, uId);
 
         ResultSet resultSet = statement.executeQuery();
-        return (ArrayList<ComplainDto>) resultSet;
+        ArrayList<ComplainDto> complainDtos =new ArrayList<>();
+        while (resultSet.next()){
+            ComplainDto complainDto = new ComplainDto(
+                    resultSet.getString("complainId"),
+                    resultSet.getString("uId"),
+                    resultSet.getString("subject"),
+                    resultSet.getString("message"),
+                    resultSet.getString("status"),
+                    resultSet.getString("date")
+            );
+
+            complainDtos.add(complainDto);
+        }
+        return complainDtos;
     }
 }

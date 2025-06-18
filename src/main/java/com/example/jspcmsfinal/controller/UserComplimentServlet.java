@@ -4,16 +4,19 @@ import com.example.jspcmsfinal.db.DBConnectionPool;
 import com.example.jspcmsfinal.dto.ComplainDto;
 import com.example.jspcmsfinal.model.ComplimentModel;
 import com.example.jspcmsfinal.model.UserModel;
+import com.example.jspcmsfinal.util.SessionHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @WebServlet("/userCompliment")
 public class UserComplimentServlet extends HttpServlet {
@@ -49,6 +52,8 @@ public class UserComplimentServlet extends HttpServlet {
                 // delete based on ID
             }
 
+            //LOAD COMPLIMENT TABLE
+            SessionHelper.loadCompliments(req);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -62,5 +67,21 @@ public class UserComplimentServlet extends HttpServlet {
         out.println("alert('" + message + "');");
         out.println("window.location='" + targetPage + "';");
         out.println("</script>");
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try {
+
+            HttpSession session = req.getSession();
+            ComplimentModel complimentModel = new ComplimentModel();
+            String  uId = (String) session.getAttribute("uId");
+
+            ArrayList<ComplainDto> allByUId = complimentModel.getAllByUId(uId, DBConnectionPool.getConnection());
+            session.setAttribute("complimentList", allByUId);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

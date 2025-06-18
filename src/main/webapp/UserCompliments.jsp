@@ -149,12 +149,31 @@
       <thead>
       <tr>
         <th>ID</th>
-        <th>Date</th>
         <th>Subject</th>
         <th>Status</th>
+        <th>Date</th>
       </tr>
       </thead>
       <tbody>
+      <%
+        ArrayList<ComplainDto> list = (ArrayList<ComplainDto>) session.getAttribute("complimentList");
+        if (list != null && !list.isEmpty()) {
+          for (ComplainDto dto : list) {
+      %>
+      <tr>
+        <td><%= dto.getComplainId() %></td>
+        <td><%= dto.getSubject() %></td>
+        <td><%= dto.getStatus() %></td>
+        <td><%= dto.getDate() %></td>
+      </tr>
+      <%
+        }
+      } else {
+      %>
+      <tr><td colspan="5">No compliments found.</td></tr>
+      <%
+        }
+      %>
       </tbody>
     </table>
 
