@@ -4,9 +4,11 @@ import com.example.jspcmsfinal.dto.ComplainDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -25,5 +27,21 @@ public class ComplimentModel {
         statement.setString(6, date);
 
         return statement.executeUpdate() > 0;
+    }
+
+    public ArrayList<ComplainDto> getAll(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM complain";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        return (ArrayList<ComplainDto>) resultSet;
+    }
+
+    public ArrayList<ComplainDto> getAllByUId(String uId, Connection connection) throws SQLException {
+        String sql = "SELECT * FROM complain where uId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, uId);
+
+        ResultSet resultSet = statement.executeQuery();
+        return (ArrayList<ComplainDto>) resultSet;
     }
 }
