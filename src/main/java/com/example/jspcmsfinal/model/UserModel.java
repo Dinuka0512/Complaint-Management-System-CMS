@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class UserModel {
@@ -86,6 +87,47 @@ public class UserModel {
         statement.setString(1, name);
         statement.setString(2, password);
         statement.setString(3, uId);
+
+        return statement.executeUpdate() > 0;
+    }
+
+    public ArrayList<UserDto> getAll(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM user where role = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, "user");
+
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<UserDto> userDtos = new ArrayList<>();
+        while (resultSet.next()){
+            UserDto userDto = new UserDto(
+                    resultSet.getString("uId"),
+                    resultSet.getString("name"),
+                    resultSet.getString("email"),
+                    resultSet.getString("password"),
+                    resultSet.getString("role")
+            );
+
+            userDtos.add(userDto);
+        }
+
+        return userDtos;
+    }
+
+    public boolean deleteUser(String uId, Connection connection) throws SQLException {
+        String sql = "DELETE FROM user where uId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, uId);
+
+        return statement.executeUpdate() > 0;
+    }
+
+    public boolean updateUser(String id, String name,String email, String password, Connection connection) throws SQLException {
+        String sql = "UPDATE user SET name = ?, email = ?, password = ? where uId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, name);
+        statement.setString(2, email);
+        statement.setString(3, password);
+        statement.setString(4, id);
 
         return statement.executeUpdate() > 0;
     }

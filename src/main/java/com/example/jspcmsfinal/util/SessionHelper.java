@@ -2,7 +2,9 @@ package com.example.jspcmsfinal.util;
 
 import com.example.jspcmsfinal.db.DBConnectionPool;
 import com.example.jspcmsfinal.dto.ComplainDto;
+import com.example.jspcmsfinal.dto.UserDto;
 import com.example.jspcmsfinal.model.ComplimentModel;
+import com.example.jspcmsfinal.model.UserModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -31,6 +33,18 @@ public class SessionHelper {
                 int allSolvedComplement = complimentModel.getAllSolvedCompliment(uId, connection);
                 session.setAttribute("solved", allSolvedComplement);
             }
+        }
+    }
+
+    public static void loadAdminComponents(HttpServletRequest req) throws SQLException {
+        HttpSession session = req.getSession(false);
+        if (session != null) {
+
+            UserModel userModel = new UserModel();
+            Connection connection = DBConnectionPool.getConnection();
+
+            ArrayList<UserDto> all = userModel.getAll(connection);
+            session.setAttribute("allUsers", all);
         }
     }
 }

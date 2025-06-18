@@ -27,7 +27,11 @@ public class LoginServlet extends HttpServlet {
                 //EMAIL FOUND
                 if(userModel.isLoginSuccess(email, password, DBConnectionPool.getConnection())){
                     //LOGIN TO DASHBOARD
+                    HttpSession session = req.getSession();
                     if(userModel.isAdminLogin(email, DBConnectionPool.getConnection())){
+                        //LOAD ADMIN COMPONENTS
+                        SessionHelper.loadAdminComponents(req);
+
                         //ADMIN LOGIN
                         resp.sendRedirect("AdminDashboard.jsp");
                     }else {
@@ -37,7 +41,6 @@ public class LoginServlet extends HttpServlet {
                         UserDto user = userModel.getUserByEmail(email, DBConnectionPool.getConnection());
 
                         // Start session and save user data
-                        HttpSession session = req.getSession();
                         session.setAttribute("email", user.getEmail());
                         session.setAttribute("name", user.getName());
                         session.setAttribute("role", user.getRole());

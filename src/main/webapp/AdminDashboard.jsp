@@ -14,9 +14,10 @@
     <aside class="sidebar">
         <h2>CMS Admin</h2>
         <nav>
-            <a href="#">Dashboard</a>
-            <a href="#">Compliments</a>
-            <a href="#">Users</a>
+            <a href="AdminDashboard.jsp">Dashboard</a>
+            <a href="AdminComplimentManage.jsp">Compliments</a>
+            <a href="AdminAnswerManage.jsp">Answers</a>
+            <a href="AdminUserManage.jsp">Users</a>
             <a href="LoginPage.jsp">Logout</a>
         </nav>
     </aside>
