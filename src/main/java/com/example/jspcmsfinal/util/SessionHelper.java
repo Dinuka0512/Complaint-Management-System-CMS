@@ -6,6 +6,7 @@ import com.example.jspcmsfinal.model.ComplimentModel;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,8 +16,20 @@ public class SessionHelper {
         if (session != null) {
             String uId = (String) session.getAttribute("uId");
             if (uId != null) {
-                ArrayList<ComplainDto> list = new ComplimentModel().getAllByUId(uId, DBConnectionPool.getConnection());
+                ComplimentModel complimentModel = new ComplimentModel();
+                Connection connection = DBConnectionPool.getConnection();
+
+                ArrayList<ComplainDto> list = complimentModel.getAllByUId(uId, connection);
                 session.setAttribute("complimentList", list);
+
+                int allComplimentsCountUser = complimentModel.getAllComplimentsCountUser(uId, connection);
+                session.setAttribute("allCount", allComplimentsCountUser);
+
+                int allPendingComplement = complimentModel.getAllPendingCompliment(uId, connection);
+                session.setAttribute("pending", allPendingComplement);
+
+                int allSolvedComplement = complimentModel.getAllSolvedCompliment(uId, connection);
+                session.setAttribute("solved", allSolvedComplement);
             }
         }
     }

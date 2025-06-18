@@ -1,3 +1,5 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.jspcmsfinal.dto.ComplainDto" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,15 +31,15 @@
         <div class="stats-grid">
             <div class="card">
                 <h3>Total Compliments</h3>
-                <p>12</p>
+                <p><%=session.getAttribute("allCount")%></p>
             </div>
             <div class="card">
                 <h3>Solved</h3>
-                <p>7</p>
+                <p><%=session.getAttribute("solved")%></p>
             </div>
             <div class="card">
                 <h3>Pending</h3>
-                <p>5</p>
+                <p><%=session.getAttribute("pending")%></p>
             </div>
         </div>
 
@@ -47,28 +49,34 @@
             <table>
                 <thead>
                 <tr>
-                    <th>Date</th>
                     <th>Subject</th>
-                    <th>Status</th>
+                    <th>Message</th>
+                    <th>Date</th>
                 </tr>
                 </thead>
                 <tbody>
+                <%
+                    ArrayList<ComplainDto> complimentList = (ArrayList<ComplainDto>) session.getAttribute("complimentList");
+                    if (complimentList != null && !complimentList.isEmpty()) {
+                        for (ComplainDto dto : complimentList) {
+                %>
                 <tr>
-                    <td>2025-06-12</td>
-                    <td>Appreciated IT team for network support</td>
-                    <td><span class="status solved">Solved</span></td>
+                    <td><%= dto.getSubject() %></td>
+                    <td><%= dto.getMessage() %></td>
+                    <td><%= dto.getDate() %></td>
                 </tr>
+                <%
+                    }
+                } else {
+                %>
                 <tr>
-                    <td>2025-06-14</td>
-                    <td>Printer issue in office 4</td>
-                    <td><span class="status pending">Pending</span></td>
+                    <td colspan="3">No compliments available.</td>
                 </tr>
-                <tr>
-                    <td>2025-06-15</td>
-                    <td>Quick fix for laptop problem</td>
-                    <td><span class="status solved">Solved</span></td>
-                </tr>
+                <%
+                    }
+                %>
                 </tbody>
+
             </table>
         </section>
     </main>
