@@ -28,11 +28,12 @@ public class UserComplimentServlet extends HttpServlet {
 
             String action = req.getParameter("action");
 
+            String message = req.getParameter("message");
+            String subject = req.getParameter("subject");
+            String id = req.getParameter("id");
+
             if ("save".equals(action)) {
                 //SAVE NEW COMPLIMENT
-                String message = req.getParameter("message");
-                String subject = req.getParameter("subject");
-
                 String uId = (String) req.getSession().getAttribute("uId");
 
                 ComplainDto complainDto = new ComplainDto();
@@ -47,13 +48,25 @@ public class UserComplimentServlet extends HttpServlet {
                 }
 
             } else if ("update".equals(action)) {
-                // update existing one
+                // UPDATE COMPLIMENT
+                boolean updated = complimentModel.updateCompliment(id, subject, message, connection);
+                if(updated){
+                    alertAndRedirectToPage(resp, "Compliment Updated", "UserCompliments.jsp");
+                }else{
+                    alertAndRedirectToPage(resp, "Compliment Update Failed", "UserCompliments.jsp");
+                }
             } else if ("delete".equals(action)) {
-                // delete based on ID
+                // DELETE COMPLIMENT
+                boolean deleted = complimentModel.deleteCompliment(id, connection);
+                if(deleted){
+                    alertAndRedirectToPage(resp, "Compliment Delete", "UserCompliments.jsp");
+                }else{
+                    alertAndRedirectToPage(resp, "Compliment Delete Failed", "UserCompliments.jsp");
+                }
             }
 
             //LOAD COMPLIMENT TABLE
-            SessionHelper.loadCompliments(req);
+            SessionHelper.loadComplimentsForUser(req);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

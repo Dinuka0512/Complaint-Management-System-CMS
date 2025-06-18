@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class SessionHelper {
-    public static void loadCompliments(HttpServletRequest req) throws SQLException {
+    public static void loadComplimentsForUser(HttpServletRequest req) throws SQLException {
         HttpSession session = req.getSession(false);
         if (session != null) {
             String uId = (String) session.getAttribute("uId");

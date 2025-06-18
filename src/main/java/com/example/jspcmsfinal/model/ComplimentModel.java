@@ -70,4 +70,22 @@ public class ComplimentModel {
         }
         return complainDtos;
     }
+
+    public boolean deleteCompliment(String complainId, Connection connection) throws SQLException {
+        String sql = "DELETE FROM complain where complainId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, complainId);
+
+        return statement.executeUpdate() > 0;
+    }
+
+    public boolean updateCompliment(String complainId,String subject, String message, Connection connection) throws SQLException {
+        String sql = "UPDATE complain SET subject = ?, message = ? WHERE complainId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, subject);
+        statement.setString(2, message);
+        statement.setString(3, complainId);
+
+        return statement.executeUpdate() > 0;
+    }
 }

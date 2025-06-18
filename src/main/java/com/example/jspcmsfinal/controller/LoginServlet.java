@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
                         session.setAttribute("uId", user.getUId());
 
                         //LOAD COMPLIMENTS
-                        SessionHelper.loadCompliments(req);
+                        SessionHelper.loadComplimentsForUser(req);
 
                         resp.sendRedirect("userDashboard.jsp");
                     }
