@@ -79,7 +79,7 @@
       </thead>
       <tbody>
       <%
-        ArrayList<AnswerDto> answers = (ArrayList<AnswerDto>) request.getAttribute("answers");
+        ArrayList<AnswerDto> answers = (ArrayList<AnswerDto>) session.getAttribute("answerDtos");
         if (answers != null) {
           for (AnswerDto a : answers) {
       %>

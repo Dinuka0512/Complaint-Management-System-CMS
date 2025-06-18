@@ -29,7 +29,7 @@ public class ComplimentModel {
         }
     }
 
-    public ArrayList<ComplainDto> getAll(Connection connection) throws SQLException {
+    public ArrayList<ComplainDto> getAllPending(Connection connection) throws SQLException {
         String sql = "SELECT * FROM complain where status = ?";
 
             PreparedStatement statement = connection.prepareStatement(sql);

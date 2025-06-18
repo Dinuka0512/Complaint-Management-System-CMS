@@ -224,7 +224,7 @@
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2 id="modalTitle">Add New Compliment</h2>
         <form id="complimentForm" action="userCompliment" method="post">
-          <input type="hidden" name="id" id="complimentId" />
+          <input type="text" name="id" id="complimentId" disabled/>
           <div class="form-group">
             <label for="subject">Subject</label>
             <input type="text" name="subject" id="subject" required />

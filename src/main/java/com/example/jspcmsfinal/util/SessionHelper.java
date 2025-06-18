@@ -1,8 +1,10 @@
 package com.example.jspcmsfinal.util;
 
 import com.example.jspcmsfinal.db.DBConnectionPool;
+import com.example.jspcmsfinal.dto.AnswerDto;
 import com.example.jspcmsfinal.dto.ComplainDto;
 import com.example.jspcmsfinal.dto.UserDto;
+import com.example.jspcmsfinal.model.AnswerModel;
 import com.example.jspcmsfinal.model.ComplimentModel;
 import com.example.jspcmsfinal.model.UserModel;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,13 +44,17 @@ public class SessionHelper {
 
             UserModel userModel = new UserModel();
             ComplimentModel complimentModel = new ComplimentModel();
+            AnswerModel answerModel = new AnswerModel();
             Connection connection = DBConnectionPool.getConnection();
 
             ArrayList<UserDto> all = userModel.getAll(connection);
             session.setAttribute("allUsers", all);
 
-            ArrayList<ComplainDto> allComplains = complimentModel.getAll(connection);
+            ArrayList<ComplainDto> allComplains = complimentModel.getAllPending(connection);
             session.setAttribute("complains", allComplains);
+
+            ArrayList<AnswerDto> answerDtos = answerModel.getAll(connection);
+            session.setAttribute("answerDtos", answerDtos);
         }
     }
 }

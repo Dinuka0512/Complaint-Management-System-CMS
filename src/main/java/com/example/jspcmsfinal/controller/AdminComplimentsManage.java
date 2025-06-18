@@ -36,8 +36,8 @@ public class AdminComplimentsManage extends HttpServlet {
                 //DELETE COMPLIMENT
                 boolean deleted = complimentModel.deleteCompliment(complainId, connection);
                 if(deleted){
-                    alertAndRedirectToPage(resp, "User Deleted", thisPage);
                     SessionHelper.loadAdminComponents(req);
+                    alertAndRedirectToPage(resp, "User Deleted", thisPage);
                 }else{
                     alertAndRedirectToPage(resp, "User Delete Failed", thisPage);
                 }
@@ -65,8 +65,10 @@ public class AdminComplimentsManage extends HttpServlet {
                         boolean answerSaved = answerModel.saveAnswer(answerDto, connection);
                         if(answerSaved){
                            //ALL ARE OK
-                           alertAndRedirectToPage(resp, "Compiment Solved!", thisPage);
-                           SessionHelper.loadAdminComponents(req);
+                            connection.commit();
+                            SessionHelper.loadAdminComponents(req);
+                            alertAndRedirectToPage(resp, "Compiment Solved!", thisPage);
+
                         }else if("solve".equals(action)){
                             alertAndRedirectToPage(resp, "Something Went wrong...", thisPage);
                             connection.rollback();
