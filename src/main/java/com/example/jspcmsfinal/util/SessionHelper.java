@@ -41,10 +41,14 @@ public class SessionHelper {
         if (session != null) {
 
             UserModel userModel = new UserModel();
+            ComplimentModel complimentModel = new ComplimentModel();
             Connection connection = DBConnectionPool.getConnection();
 
             ArrayList<UserDto> all = userModel.getAll(connection);
             session.setAttribute("allUsers", all);
+
+            ArrayList<ComplainDto> allComplains = complimentModel.getAll(connection);
+            session.setAttribute("complains", allComplains);
         }
     }
 }

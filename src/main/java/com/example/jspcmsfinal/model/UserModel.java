@@ -131,4 +131,22 @@ public class UserModel {
 
         return statement.executeUpdate() > 0;
     }
+
+    public UserDto getUserById(String id, Connection conn) throws SQLException {
+        String sql = "SELECT * FROM user WHERE uId = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, id);
+        ResultSet rs = stmt.executeQuery();
+
+        if (rs.next()) {
+            UserDto user = new UserDto();
+            user.setUId(rs.getString("uId"));
+            user.setName(rs.getString("name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setRole(rs.getString("role"));
+            return user;
+        }
+        return null;
+    }
 }

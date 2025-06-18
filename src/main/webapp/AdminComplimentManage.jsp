@@ -1,5 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.example.jspcmsfinal.dto.ComplainDto" %>
+<%@ page import="com.example.jspcmsfinal.model.UserModel" %>
+<%@ page import="com.example.jspcmsfinal.db.DBConnectionPool" %>
+<%@ page import="com.example.jspcmsfinal.dto.UserDto" %>
+<%@ page import="java.sql.Connection" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,6 +75,22 @@
       cursor: pointer;
     }
 
+    .btn-delete {
+      margin-top: 2px;
+      background-color: #d32f2f;
+      color: white;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-delete:hover {
+      background-color: #b91c1c;
+    }
+
+
     .btn-submit:hover {
       background-color: #3e8e41;
     }
@@ -122,40 +142,39 @@
       </tr>
       </thead>
       <tbody>
+      <%
+        ArrayList<ComplainDto> complains = (ArrayList<ComplainDto>) session.getAttribute("complains");
+
+        UserModel userModel = new UserModel();
+
+        if (complains != null && !complains.isEmpty()) {
+          for (ComplainDto dto : complains) {
+            UserDto user = userModel.getUserById(dto.getUId(), DBConnectionPool.getConnection());
+      %>
       <tr>
-        <td>101</td>
-        <td>user1@example.com</td>
-        <td>Great Service</td>
-        <td>Loved the prompt support!</td>
-        <td>Pending</td>
-        <td>2025-06-15</td>
+        <td><%=dto.getComplainId()%></td>
+        <td><%=user.getEmail()%></td>
+        <td><%=dto.getSubject()%></td>
+        <td><%=dto.getMessage()%></td>
+        <td><%=dto.getStatus()%></td>
+        <td><%=dto.getDate()%></td>
         <td>
-          <button onclick="openAnswerModal('101')" class="btn-submit">Mark Solved</button>
+          <button class="btn-submit" onclick="openAnswerModal('<%=dto.getComplainId()%>')">Answer</button>
+          <form action="adminCompliment" method="post" style="display:inline;">
+            <input type="hidden" name="complainId" value="<%= dto.getComplainId() %>">
+            <input type="hidden" name="action" value="delete">
+            <button type="submit" class="btn-delete">Delete</button>
+          </form>
         </td>
       </tr>
-      <tr>
-        <td>102</td>
-        <td>user2@example.com</td>
-        <td>Excellent Experience</td>
-        <td>Staff was very helpful and friendly.</td>
-        <td>Solved</td>
-        <td>2025-06-14</td>
-        <td>
-          <!-- Already solved, no button -->
-          <span style="color: green; font-weight: bold;">Solved</span>
-        </td>
-      </tr>
-      <tr>
-        <td>103</td>
-        <td>user3@example.com</td>
-        <td>Quick Response</td>
-        <td>Response time was impressive.</td>
-        <td>Pending</td>
-        <td>2025-06-13</td>
-        <td>
-          <button onclick="openAnswerModal('103')" class="btn-submit">Mark Solved</button>
-        </td>
-      </tr>
+      <%
+        }
+      } else {
+      %>
+      <tr><td colspan="7">Compliments are not yet available.</td></tr>
+      <%
+        }
+      %>
       </tbody>
     </table>
   </main>

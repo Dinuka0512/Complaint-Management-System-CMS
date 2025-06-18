@@ -30,12 +30,13 @@ public class ComplimentModel {
     }
 
     public ArrayList<ComplainDto> getAll(Connection connection) throws SQLException {
-        String sql = "SELECT * FROM complain";
-        ArrayList<ComplainDto> complainDtos = new ArrayList<>();
+        String sql = "SELECT * FROM complain where status = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, "Pending");
+            ResultSet resultSet = statement.executeQuery();
 
+            ArrayList<ComplainDto> complainDtos = new ArrayList<>();
             while (resultSet.next()) {
                 ComplainDto complainDto = new ComplainDto(
                         resultSet.getString("complainId"),
@@ -47,7 +48,6 @@ public class ComplimentModel {
                 );
                 complainDtos.add(complainDto);
             }
-        }
         return complainDtos;
     }
 
