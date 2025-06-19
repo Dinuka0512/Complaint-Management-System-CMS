@@ -1,6 +1,9 @@
 package com.example.jspcmsfinal.model;
 
+import com.example.jspcmsfinal.dto.AnswerDto;
+import com.example.jspcmsfinal.dto.ComplainDto;
 import com.example.jspcmsfinal.dto.UserDto;
+import com.example.jspcmsfinal.dto.tm.UserAnswerTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -148,5 +151,66 @@ public class UserModel {
             return user;
         }
         return null;
+    }
+
+    public ArrayList<UserAnswerTm> loadTableDataUserAnswer(String id, Connection connection) throws SQLException {
+        UserModel userModel = new UserModel();
+        ArrayList<UserAnswerTm> userAnswerTms = new ArrayList<>();
+
+        UserDto user = userModel.getUserById(id, connection);
+        if (user != null) {
+            String sqlComplain = "SELECT * FROM complain WHERE uId = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sqlComplain)) {
+                statement.setString(1, id);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String complainId = resultSet.getString("complainId");
+
+                        ComplainDto complainDto = new ComplainDto(
+                                complainId,
+                                resultSet.getString("uId"),
+                                resultSet.getString("subject"),
+                                resultSet.getString("message"),
+                                resultSet.getString("status"),
+                                resultSet.getString("date")
+                        );
+
+                        AnswerDto answerDto = null;
+
+                        String sqlAnswer = "SELECT * FROM answer WHERE complainId = ?";
+                        try (PreparedStatement statement1 = connection.prepareStatement(sqlAnswer)) {
+                            statement1.setString(1, complainId);
+                            try (ResultSet resultSet1 = statement1.executeQuery()) {
+                                if (resultSet1.next()) {
+                                    answerDto = new AnswerDto(
+                                            resultSet1.getString("ansId"),
+                                            complainId,
+                                            resultSet1.getString("subject"),
+                                            resultSet1.getString("message"),
+                                            resultSet1.getString("date")
+                                    );
+                                }
+                            }
+                        }
+
+                        // Add to list only if answer exists
+                        if (answerDto != null) {
+                            UserAnswerTm userAnswerTm = new UserAnswerTm(
+                                    user.getEmail(),
+                                    complainDto.getSubject(),
+                                    complainDto.getMessage(),
+                                    complainDto.getDate(),
+                                    answerDto.getSubject(),
+                                    answerDto.getMessage(),
+                                    answerDto.getDate()
+                            );
+                            userAnswerTms.add(userAnswerTm);
+                        }
+                    }
+                }
+            }
+        }
+
+        return userAnswerTms;
     }
 }

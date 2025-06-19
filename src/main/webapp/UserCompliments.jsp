@@ -160,6 +160,7 @@
     <nav>
       <a href="userDashboard.jsp">Dashboard</a>
       <a href="UserCompliments.jsp">Compliments</a>
+      <a href="UserAnswerManage.jsp">Answers</a>
       <a href="UserProfileManage.jsp">Profile</a>
       <a href="LoginPage.jsp">Logout</a>
     </nav>

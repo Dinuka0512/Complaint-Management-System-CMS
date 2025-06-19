@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.jspcmsfinal.dto.ComplainDto" %>
+<%@ page import="com.example.jspcmsfinal.dto.tm.UserAnswerTm" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,7 @@
         <nav>
             <a href="userDashboard.jsp">Dashboard</a>
             <a href="UserCompliments.jsp">Compliments</a>
+            <a href="UserAnswerManage.jsp">Answers</a>
             <a href="UserProfileManage.jsp">Profile</a>
             <a href="LoginPage.jsp">Logout</a>
         </nav>
@@ -77,6 +79,37 @@
                 %>
                 </tbody>
 
+            </table>
+        </section>
+
+        <section class="panel">
+            <h2>Answers For your Compliments</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>User</th>
+                    <th>User Complain</th>
+                </tr>
+                </thead>
+                <tbody>
+                <%
+                    ArrayList<UserAnswerTm> userAnswers = (ArrayList<UserAnswerTm>) session.getAttribute("userAnswers");
+                    if (userAnswers != null && !userAnswers.isEmpty()) {
+                        for (UserAnswerTm a : userAnswers) {
+                %>
+                <tr>
+                    <td><%= a.getComSubject() + " | " + a.getComMessage() + " | " + a.getComDate() %></td>
+                    <td><%= a.getAnsSubject() + " | " + a.getAnsMessage() + " | " + a.getAnsDate() %></td>
+                </tr>
+                <%
+                    }
+                } else {
+                %>
+                <tr><td colspan="3">No answers found.</td></tr>
+                <%
+                    }
+                %>
+                </tbody>
             </table>
         </section>
     </main>
