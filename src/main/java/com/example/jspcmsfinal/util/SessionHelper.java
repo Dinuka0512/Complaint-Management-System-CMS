@@ -5,6 +5,7 @@ import com.example.jspcmsfinal.dto.AnswerDto;
 import com.example.jspcmsfinal.dto.ComplainDto;
 import com.example.jspcmsfinal.dto.UserDto;
 import com.example.jspcmsfinal.dto.tm.AnswerTm;
+import com.example.jspcmsfinal.dto.tm.ComplainTm;
 import com.example.jspcmsfinal.model.AnswerModel;
 import com.example.jspcmsfinal.model.ComplimentModel;
 import com.example.jspcmsfinal.model.UserModel;
@@ -72,6 +73,9 @@ public class SessionHelper {
 
                 int recentCompliments = complimentModel.getRecentCompliments(connection);
                 session.setAttribute("comThisWeek", recentCompliments);
+
+                ArrayList<ComplainTm> allCom = complimentModel.getAll(connection);
+                session.setAttribute("allCom", allCom);
 
             }finally {
                 connection.close();

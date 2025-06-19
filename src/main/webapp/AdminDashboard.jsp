@@ -1,3 +1,5 @@
+<%@ page import="com.example.jspcmsfinal.dto.tm.ComplainTm" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,24 +51,34 @@
                 <thead>
                 <tr>
                     <th>User</th>
+                    <th>Subject</th>
                     <th>Message</th>
                     <th>Status</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
+                <%
+                    ArrayList<ComplainTm> allCom = (ArrayList<com.example.jspcmsfinal.dto.tm.ComplainTm>) session.getAttribute("allCom");
+
+                    if (allCom != null && !allCom.isEmpty()) {
+                        for (com.example.jspcmsfinal.dto.tm.ComplainTm com : allCom) {
+                %>
                 <tr>
-                    <td>john@example.com</td>
-                    <td>Great response from IT!</td>
-                    <td><span class="status pending">Pending</span></td>
-                    <td><button>Mark as Solved</button></td>
+                    <td><%= com.getUEmail() %></td>
+                    <td><%= com.getSubject() %></td>
+                    <td><%= com.getMessage() %></td>
+                    <td><%= com.getStatus() %></td>
                 </tr>
+                <%
+                    }
+                } else {
+                %>
                 <tr>
-                    <td>sara@domain.com</td>
-                    <td>Helped me with server issues.</td>
-                    <td><span class="status solved">Solved</span></td>
-                    <td><button disabled>Solved</button></td>
+                    <td colspan="5">No compliments found.</td>
                 </tr>
+                <%
+                    }
+                %>
                 </tbody>
             </table>
         </section>

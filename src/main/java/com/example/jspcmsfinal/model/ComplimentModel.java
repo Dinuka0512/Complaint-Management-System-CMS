@@ -1,6 +1,8 @@
 package com.example.jspcmsfinal.model;
 
 import com.example.jspcmsfinal.dto.ComplainDto;
+import com.example.jspcmsfinal.dto.UserDto;
+import com.example.jspcmsfinal.dto.tm.ComplainTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -213,5 +215,30 @@ public class ComplimentModel {
         }
 
         return null;
+    }
+
+    public ArrayList<ComplainTm> getAll(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM complain";
+        PreparedStatement statement = connection.prepareStatement(sql);
+
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<ComplainTm> complainTms = new ArrayList<>();
+        while (resultSet.next()){
+            String userId = resultSet.getString("uId");
+            UserDto user = new UserModel().getUserById(userId, connection);
+
+            if(user!=null){
+                ComplainTm complainTm = new ComplainTm(
+                        user.getEmail(),
+                        resultSet.getString("subject"),
+                        resultSet.getString("message"),
+                        resultSet.getString("status")
+                );
+
+                complainTms.add(complainTm);
+            }
+        }
+
+        return complainTms;
     }
 }
