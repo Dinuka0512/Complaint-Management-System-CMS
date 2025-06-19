@@ -20,7 +20,7 @@
       z-index: 1000;
     }
     .modal {
-      background: #fff;
+      background-color: #0d1117;
       padding: 30px;
       border-radius: 10px;
       width: 400px;
@@ -90,7 +90,7 @@
         <td><%=a.getMessage()%></td>
         <td><%=a.getDate()%></td>
         <td>
-          <form method="post" action="adminAnswer" style="display:inline;">
+          <form method="get" action="adminAnswer" style="display:inline;">
             <input type="hidden" name="action" value="delete">
             <input type="hidden" name="ansId" value="<%=a.getAnsId()%>">
             <button type="submit" class="btn-submit" style="background-color:red;">Delete</button>
