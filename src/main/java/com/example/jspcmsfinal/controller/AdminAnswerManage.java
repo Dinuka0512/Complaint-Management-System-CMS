@@ -4,6 +4,7 @@ import com.example.jspcmsfinal.db.DBConnectionPool;
 import com.example.jspcmsfinal.dto.AnswerDto;
 import com.example.jspcmsfinal.model.AnswerModel;
 import com.example.jspcmsfinal.model.ComplimentModel;
+import com.example.jspcmsfinal.util.SessionHelper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -77,6 +78,9 @@ public class AdminAnswerManage extends HttpServlet {
                     connection.setAutoCommit(true);
                     connection.close();
                 }
+
+                //UI LOAD
+                SessionHelper.loadAdminComponents(req);
             }
 
         } catch (SQLException e) {

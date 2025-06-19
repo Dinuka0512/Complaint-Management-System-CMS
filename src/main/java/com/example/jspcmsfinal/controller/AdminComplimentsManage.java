@@ -66,7 +66,6 @@ public class AdminComplimentsManage extends HttpServlet {
                         if(answerSaved){
                            //ALL ARE OK
                             connection.commit();
-                            SessionHelper.loadAdminComponents(req);
                             alertAndRedirectToPage(resp, "Compiment Solved!", thisPage);
 
                         }else if("solve".equals(action)){
@@ -82,6 +81,9 @@ public class AdminComplimentsManage extends HttpServlet {
                     connection.setAutoCommit(true);
                     connection.close();
                 }
+
+                //UI LOAD
+                SessionHelper.loadAdminComponents(req);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
