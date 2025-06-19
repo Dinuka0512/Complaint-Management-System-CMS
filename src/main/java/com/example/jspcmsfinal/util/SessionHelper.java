@@ -4,6 +4,7 @@ import com.example.jspcmsfinal.db.DBConnectionPool;
 import com.example.jspcmsfinal.dto.AnswerDto;
 import com.example.jspcmsfinal.dto.ComplainDto;
 import com.example.jspcmsfinal.dto.UserDto;
+import com.example.jspcmsfinal.dto.tm.AnswerTm;
 import com.example.jspcmsfinal.model.AnswerModel;
 import com.example.jspcmsfinal.model.ComplimentModel;
 import com.example.jspcmsfinal.model.UserModel;
@@ -60,7 +61,7 @@ public class SessionHelper {
                 ArrayList<ComplainDto> allComplains = complimentModel.getAllPending(connection);
                 session.setAttribute("complains", allComplains);
 
-                ArrayList<AnswerDto> answerDtos = answerModel.getAll(connection);
+                ArrayList<AnswerTm> answerDtos = answerModel.getAll(connection);
                 session.setAttribute("answerDtos", answerDtos);
 
                 int totalCompliments = complimentModel.getTotalCompliments(connection);

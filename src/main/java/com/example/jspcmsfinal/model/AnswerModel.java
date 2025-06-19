@@ -2,6 +2,7 @@ package com.example.jspcmsfinal.model;
 
 import com.example.jspcmsfinal.dto.AnswerDto;
 import com.example.jspcmsfinal.dto.ComplainDto;
+import com.example.jspcmsfinal.dto.tm.AnswerTm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,33 +24,38 @@ public class AnswerModel {
         return statement.executeUpdate() > 0;
     }
 
-    public ArrayList<AnswerDto> getAll(Connection connection) throws SQLException {
-        String sql = "SELECT * FROM answer";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        ResultSet resultSet = statement.executeQuery();
-        ArrayList<AnswerDto> answerDtos = new ArrayList<>();
-
-        while (resultSet.next()){
-            AnswerDto answerDto = new AnswerDto(
-                    resultSet.getString(1),
-                    resultSet.getString(2),
-                    resultSet.getString(3),
-                    resultSet.getString(4),
-                    resultSet.getString(5)
-            );
-
-            answerDtos.add(answerDto);
-        }
-
-        return answerDtos;
-    }
-
     public boolean deleteAnswer(String id, Connection connection) throws SQLException {
         String sql = "DELETE FROM answer WHERE ansId = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, id);
 
         return statement.executeUpdate() > 0;
+    }
+
+    public ArrayList<AnswerTm> getAll(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM answer";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        ArrayList<AnswerTm> answerTms = new ArrayList<>();
+
+        while (resultSet.next()) {
+            String complainId = resultSet.getString("complainId");
+            ComplainDto complainDto = new ComplimentModel().getDetailByComplainId(complainId, connection);
+
+            if (complainDto != null) {
+                AnswerTm answerTm = new AnswerTm(
+                        resultSet.getString("ansId"),
+                        complainId,
+                        complainDto.getSubject(),
+                        resultSet.getString("subject"),
+                        resultSet.getString("message"),
+                        resultSet.getString("date")
+                );
+                answerTms.add(answerTm);
+            }
+        }
+        return answerTms;
     }
 
     public boolean updateAnswer(String id, String subject, String message, Connection connection) throws SQLException {

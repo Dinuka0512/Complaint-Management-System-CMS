@@ -192,4 +192,26 @@ public class ComplimentModel {
 
         return i;
     }
+
+    public ComplainDto getDetailByComplainId(String id,Connection connection) throws SQLException {
+        String sql = "SELECT * FROM complain WHERE complainId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, id);
+
+        ResultSet resultSet = statement.executeQuery();
+        if(resultSet.next()){
+            ComplainDto complainDto = new ComplainDto(
+                    resultSet.getString("complainId"),
+                    resultSet.getString("uId"),
+                    resultSet.getString("subject"),
+                    resultSet.getString("message"),
+                    resultSet.getString("status"),
+                    resultSet.getString("date")
+            );
+
+            return complainDto;
+        }
+
+        return null;
+    }
 }

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.*, com.example.jspcmsfinal.dto.AnswerDto" %>
+<%@ page import="com.example.jspcmsfinal.dto.tm.AnswerTm" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,7 +71,7 @@
       <thead>
       <tr>
         <th>Answer ID</th>
-        <th>Compliment ID</th>
+        <th>Complain</th>
         <th>Subject</th>
         <th>Message</th>
         <th>Date</th>
@@ -79,13 +80,13 @@
       </thead>
       <tbody>
       <%
-        ArrayList<AnswerDto> answers = (ArrayList<AnswerDto>) session.getAttribute("answerDtos");
+        ArrayList<AnswerTm> answers = (ArrayList<AnswerTm>) session.getAttribute("answerDtos");
         if (answers != null) {
-          for (AnswerDto a : answers) {
+          for (AnswerTm a : answers) {
       %>
       <tr>
         <td><%=a.getAnsId()%></td>
-        <td><%=a.getComplainId()%></td>
+        <td><%=a.getComplainSubject()%></td>
         <td><%=a.getSubject()%></td>
         <td><%=a.getMessage()%></td>
         <td><%=a.getDate()%></td>
