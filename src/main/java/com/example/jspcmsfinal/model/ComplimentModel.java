@@ -152,44 +152,44 @@ public class ComplimentModel {
         return statement.executeUpdate() > 0;
     }
 
-    public int getTotalCompliments(Connection connection) {
-        String sql = "SELECT COUNT(*) FROM complain";
-        try (PreparedStatement stm = connection.prepareStatement(sql);
-             ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public int getTotalCompliments(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM complain";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        int i = 0;
+        while (resultSet.next()){
+            i++;
         }
-        return 0;
+
+        return i;
     }
 
-    public int getTotalSolvedCompliments(Connection connection) {
-        String sql = "SELECT COUNT(*) FROM complain WHERE status = 'Solved'";
-        try (PreparedStatement stm = connection.prepareStatement(sql);
-             ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public int getTotalSolvedCompliments(Connection connection) throws SQLException {
+        String sql = "SELECT * FROM complain WHERE status = 'Solved'";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        int i = 0;
+        while (resultSet.next()){
+            i++;
         }
-        return 0;
+
+        return i;
     }
 
-    public int getRecentCompliments(Connection connection) {
+    public int getRecentCompliments(Connection connection) throws SQLException {
         // Assuming `date` is stored as 'dd MMM yyyy' (e.g., '19 Jun 2025')
         // Convert to MySQL date format to compare
-        String sql = "SELECT COUNT(*) FROM complain WHERE STR_TO_DATE(date, '%d %b %Y') >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
-        try (PreparedStatement stm = connection.prepareStatement(sql);
-             ResultSet rs = stm.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt(1);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        String sql = "SELECT * FROM complain WHERE STR_TO_DATE(date, '%d %b %Y') >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+
+        int i = 0;
+        while (resultSet.next()){
+            i++;
         }
-        return 0;
+
+        return i;
     }
 }

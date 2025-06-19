@@ -30,15 +30,15 @@
         <div class="stats-grid">
             <div class="card">
                 <h3>Recent Compliments</h3>
-                <p>15 new this week</p>
+                <p><%= session.getAttribute("comThisWeek") %> new this week</p>
             </div>
             <div class="card">
                 <h3>Solved Compliments</h3>
-                <p>132 total</p>
+                <p><%= session.getAttribute("comTotalSolve") %> total</p>
             </div>
             <div class="card">
-                <h3>Total Users</h3>
-                <p>24 registered</p>
+                <h3>Total Compliments</h3>
+                <p> <%= session.getAttribute("comTotal") %> registered</p>
             </div>
         </div>
 

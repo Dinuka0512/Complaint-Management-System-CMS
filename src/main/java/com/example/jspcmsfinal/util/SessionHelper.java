@@ -20,20 +20,26 @@ public class SessionHelper {
         if (session != null) {
             String uId = (String) session.getAttribute("uId");
             if (uId != null) {
+
                 ComplimentModel complimentModel = new ComplimentModel();
                 Connection connection = DBConnectionPool.getConnection();
 
-                ArrayList<ComplainDto> list = complimentModel.getAllByUId(uId, connection);
-                session.setAttribute("complimentList", list);
+                try {
 
-                int allComplimentsCountUser = complimentModel.getAllComplimentsCountUser(uId, connection);
-                session.setAttribute("allCount", allComplimentsCountUser);
+                    ArrayList<ComplainDto> list = complimentModel.getAllByUId(uId, connection);
+                    session.setAttribute("complimentList", list);
 
-                int allPendingComplement = complimentModel.getAllPendingCompliment(uId, connection);
-                session.setAttribute("pending", allPendingComplement);
+                    int allComplimentsCountUser = complimentModel.getAllComplimentsCountUser(uId, connection);
+                    session.setAttribute("allCount", allComplimentsCountUser);
 
-                int allSolvedComplement = complimentModel.getAllSolvedCompliment(uId, connection);
-                session.setAttribute("solved", allSolvedComplement);
+                    int allPendingComplement = complimentModel.getAllPendingCompliment(uId, connection);
+                    session.setAttribute("pending", allPendingComplement);
+
+                    int allSolvedComplement = complimentModel.getAllSolvedCompliment(uId, connection);
+                    session.setAttribute("solved", allSolvedComplement);
+                }finally {
+                    connection.close();
+                }
             }
         }
     }
@@ -47,14 +53,28 @@ public class SessionHelper {
             AnswerModel answerModel = new AnswerModel();
             Connection connection = DBConnectionPool.getConnection();
 
-            ArrayList<UserDto> all = userModel.getAll(connection);
-            session.setAttribute("allUsers", all);
+            try {
+                ArrayList<UserDto> all = userModel.getAll(connection);
+                session.setAttribute("allUsers", all);
 
-            ArrayList<ComplainDto> allComplains = complimentModel.getAllPending(connection);
-            session.setAttribute("complains", allComplains);
+                ArrayList<ComplainDto> allComplains = complimentModel.getAllPending(connection);
+                session.setAttribute("complains", allComplains);
 
-            ArrayList<AnswerDto> answerDtos = answerModel.getAll(connection);
-            session.setAttribute("answerDtos", answerDtos);
+                ArrayList<AnswerDto> answerDtos = answerModel.getAll(connection);
+                session.setAttribute("answerDtos", answerDtos);
+
+                int totalCompliments = complimentModel.getTotalCompliments(connection);
+                session.setAttribute("comTotal", totalCompliments);
+
+                int totalSolvedCompliments = complimentModel.getTotalSolvedCompliments(connection);
+                session.setAttribute("comTotalSolve",totalSolvedCompliments);
+
+                int recentCompliments = complimentModel.getRecentCompliments(connection);
+                session.setAttribute("comThisWeek", recentCompliments);
+
+            }finally {
+                connection.close();
+            }
         }
     }
 }

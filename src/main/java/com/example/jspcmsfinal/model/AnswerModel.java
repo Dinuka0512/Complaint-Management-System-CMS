@@ -24,28 +24,24 @@ public class AnswerModel {
     }
 
     public ArrayList<AnswerDto> getAll(Connection connection) throws SQLException {
-        try{
-            String sql = "SELECT * FROM answer";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            ResultSet resultSet = statement.executeQuery();
-            ArrayList<AnswerDto> answerDtos = new ArrayList<>();
+        String sql = "SELECT * FROM answer";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<AnswerDto> answerDtos = new ArrayList<>();
 
-            while (resultSet.next()){
-                AnswerDto answerDto = new AnswerDto(
-                        resultSet.getString(1),
-                        resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getString(4),
-                        resultSet.getString(5)
-                );
+        while (resultSet.next()){
+            AnswerDto answerDto = new AnswerDto(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+            );
 
-                answerDtos.add(answerDto);
-            }
-
-            return answerDtos;
-        }finally {
-            connection.close();
+            answerDtos.add(answerDto);
         }
+
+        return answerDtos;
     }
 
     public boolean deleteAnswer(String id, Connection connection) throws SQLException {
