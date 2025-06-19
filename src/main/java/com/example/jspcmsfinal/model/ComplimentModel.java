@@ -75,10 +75,14 @@ public class ComplimentModel {
     }
 
     public boolean deleteCompliment(String complainId, Connection connection) throws SQLException {
-        String sql = "DELETE FROM complain WHERE complainId = ?";
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, complainId);
-            return statement.executeUpdate() > 0;
+        try {
+            String sql = "DELETE FROM complain WHERE complainId = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, complainId);
+                return statement.executeUpdate() > 0;
+            }
+        }finally {
+            connection.close();
         }
     }
 
@@ -137,5 +141,55 @@ public class ComplimentModel {
         statement.setString(2, complainId);
 
         return statement.executeUpdate() > 0;
+    }
+
+    public boolean updateComplimentAsPending(String complainId, Connection connection) throws SQLException {
+        String sql = "UPDATE complain SET status = ? where complainId = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, "Pending");
+        statement.setString(2, complainId);
+
+        return statement.executeUpdate() > 0;
+    }
+
+    public int getTotalCompliments(Connection connection) {
+        String sql = "SELECT COUNT(*) FROM complain";
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getTotalSolvedCompliments(Connection connection) {
+        String sql = "SELECT COUNT(*) FROM complain WHERE status = 'Solved'";
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getRecentCompliments(Connection connection) {
+        // Assuming `date` is stored as 'dd MMM yyyy' (e.g., '19 Jun 2025')
+        // Convert to MySQL date format to compare
+        String sql = "SELECT COUNT(*) FROM complain WHERE STR_TO_DATE(date, '%d %b %Y') >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
+        try (PreparedStatement stm = connection.prepareStatement(sql);
+             ResultSet rs = stm.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

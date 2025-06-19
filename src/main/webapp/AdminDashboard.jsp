@@ -70,32 +70,6 @@
                 </tbody>
             </table>
         </section>
-
-        <!-- User Management -->
-        <section class="panel">
-            <h2>Manage Users</h2>
-            <table>
-                <thead>
-                <tr>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>admin@domain.com</td>
-                    <td>Admin</td>
-                    <td><button disabled>Edit</button></td>
-                </tr>
-                <tr>
-                    <td>user@domain.com</td>
-                    <td>User</td>
-                    <td><button>Edit</button></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
     </main>
 </div>
 </body>

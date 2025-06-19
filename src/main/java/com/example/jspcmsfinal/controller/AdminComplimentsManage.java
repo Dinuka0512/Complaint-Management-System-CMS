@@ -27,14 +27,13 @@ public class AdminComplimentsManage extends HttpServlet {
             String thisPage = "AdminComplimentManage.jsp";
 
             ComplimentModel complimentModel = new ComplimentModel();
-            Connection connection = DBConnectionPool.getConnection();
 
             String complainId = req.getParameter("complainId");
             String action = req.getParameter("action");
 
             if("delete".equals(action)){
                 //DELETE COMPLIMENT
-                boolean deleted = complimentModel.deleteCompliment(complainId, connection);
+                boolean deleted = complimentModel.deleteCompliment(complainId, DBConnectionPool.getConnection());
                 if(deleted){
                     SessionHelper.loadAdminComponents(req);
                     alertAndRedirectToPage(resp, "User Deleted", thisPage);
@@ -42,6 +41,7 @@ public class AdminComplimentsManage extends HttpServlet {
                     alertAndRedirectToPage(resp, "User Delete Failed", thisPage);
                 }
             }else {
+                Connection connection = DBConnectionPool.getConnection();
                 try {
                     //THERE NEED TO UPDATE THE COMPLAIN AS SOLVED AND CREATE NEW ANSWER
                     connection.setAutoCommit(false);
@@ -80,6 +80,7 @@ public class AdminComplimentsManage extends HttpServlet {
 
                 }finally {
                     connection.setAutoCommit(true);
+                    connection.close();
                 }
             }
         } catch (SQLException e) {
